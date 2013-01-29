@@ -1,14 +1,22 @@
-ca marche ta vu !!!!
+#include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 
 
-rjhgg
-f
-dfhj
-d
-jhd
-thj
-fg
-hj
-ftdkhj
-gdf
-hkj
+void main (int argc,char**argv)
+{
+	int i;
+	
+	printf("il y a %i arguments\n",argc);
+	printf("les voici : \n");
+	
+	for (i=0;i<argc;i++)
+		printf("%s \n", argv[i]);
+	
+	if ((argc==1)||(argc>2)) printf ("usage : main nomdefichier\n");
+	else
+	{
+		
+	}
+	
+}
