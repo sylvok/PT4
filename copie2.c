@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <stdint.h>
 
 
 void afficherAide()
@@ -23,6 +28,46 @@ void afficherAide()
 	printf("\n"); 
 }
 
+int header(void)
+{
+    DIR *dp;
+    struct dirent *ep;
+    char* tar = NULL;
+    /* open the current directory and search for the zip file */
+    dp = opendir("./" );
+    if (dp != NULL)
+    {
+        /* for each directory entry, check if the file ends with '.zip' */
+        const char* str = NULL;
+        while (ep = readdir(dp))
+            if ((str = strstr(ep->d_name, ".tar" )) && strlen(str) == strlen(".tar" )) {
+                tar = ep->d_name;
+            }
+        closedir(dp);
+    }
+    else {
+        perror("Couldn't open the directory\n" );
+        return 1;
+    }
+   
+    /* if we didn't find it, exit */
+    if (!tar) {
+        perror("The tar file wasn't found!\n" );
+        return 1;
+    }
+   
+    /* try to stat the file to get the file information */
+    struct stat file_status;
+    if (stat(tar, &file_status)) {
+        fprintf(stderr, "could not stat the file %s", tar);
+        return 1;
+    } else
+        printf("Tar file: %s\n    size: %9jd Kb\n", tar, ((intmax_t)file_status.st_size) / 1024);
+   
+    return 0;
+}
+
+
 int main (int argc, char **argv)
      {
 	   int tflag = 0;
@@ -30,7 +75,7 @@ int main (int argc, char **argv)
        
        int c;
      
-       if ((c = getopt (argc, argv, "hct")) != -1)
+       if ((c = getopt (argc, argv, "hctf")) != -1)
        {
 		   int nb=1;
          switch (c)
@@ -43,6 +88,9 @@ int main (int argc, char **argv)
 				break;
            case 't':
 				tflag = 1;
+				break;
+		   case 'f':
+				header();
 				break;
            default:
 				fprintf(stderr, "Error\n");
