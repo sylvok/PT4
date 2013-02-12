@@ -25,16 +25,12 @@ void afficherAide()
 
 int main (int argc, char **argv)
      {
-	   int tflag = 0; int xflag = 0; int dflag = 0;
-       int vflag = 0; int rflag = 0; int fflag = 0; int mflag = 0;
-       int cflag = 0; int uflag = 0; int zflag = 0; int sparseflag = 0;
+	   int tflag = 0;
+       int cflag = 0;
        
-       int index;
        int c;
      
-       opterr = 0;
-     
-       if ((c = getopt (argc, argv, "hvctruxfzdm:sparse:")) != -1)
+       if ((c = getopt (argc, argv, "hct")) != -1)
        {
 		   int nb=1;
          switch (c)
@@ -42,35 +38,11 @@ int main (int argc, char **argv)
            case 'h':
 				afficherAide();
 				break;
-           case 'v':
-				vflag = 1;
-				break;
            case 'c':
 				cflag = 1;
 				break;
            case 't':
 				tflag = 1;
-				break;
-           case 'r':
-				rflag = 1;
-				break;
-           case 'u':
-				uflag = 1;
-				break;
-           case 'x':
-				xflag = 1;
-				break;
-           case 'f':
-				fflag = 1;
-                break;
-           case 'z':
-				zflag = 1;
-				break;
-           case 'd':
-				dflag = 1;
-				break;
-           case 'm':
-				mflag = 1;
 				break;
            default:
 				fprintf(stderr, "Error\n");
@@ -79,33 +51,33 @@ int main (int argc, char **argv)
      
 	 if (cflag == 1)
 	 {
-		 FILE *f_in;
-		 FILE *f_out;
+		 FILE *fSrc;
+		 FILE *fDest;
 		 int nb=2;
 		 char ligne[90];
 
-		if ((f_in = fopen(argv[argc-1],"w")) == NULL)
+		if ((fSrc = fopen(argv[argc-1],"w")) == NULL)
 		{
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
 		}
 		while (nb<argc && argc>1)
 		{			
-			if ((f_out = fopen(argv[nb],"r")) == NULL)
+			if ((fDest = fopen(argv[nb],"r")) == NULL)
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 
-			fgets(ligne, 90, f_out);
+			fgets(ligne, 90, fDest);
 
-			while (!feof(f_out))
+			while (!feof(fDest))
 			{
-				fputs(ligne, f_in);
-				fgets(ligne, 81, f_out);
+				fputs(ligne, fSrc);
+				fgets(ligne, 81, fDest);
 			}
 
 
-			fclose(f_out);
+			fclose(fDest);
 			nb++;
 		}
-		fclose(f_in);
+		fclose(fSrc);
 		printf("\nLa copie est terminee.\n");	
 	 }
 	 
