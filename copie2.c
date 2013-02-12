@@ -22,13 +22,13 @@ void afficherAide()
 	printf("-x : pour extraire les fichiers de l'archive\n");
 	printf("-f : pour indiquer le nom du fichier archive\n");
 	printf("-z : pour compresser le fichier d'archive\n");
-	printf("-d : pour suprimer un fichier d'une archive\n");
+	printf("-d : pour supprimer un fichier d'une archive\n");
 	printf("-sparse : pour économiser de la place pour stocker les fichiers contenant beaucoup de zéros consécutifs\n");
 	printf("-m : afficher les différences entre les fichiers archivés et les fichiers existants\n");
 	printf("\n"); 
 }
 
-int header(void)
+int detailA(void)
 {
     DIR *dp;
     struct dirent *ep;
@@ -87,7 +87,7 @@ int main (int argc, char **argv)
 				tflag = 1;
 				break;
 		   case 'f':
-				header();
+				detailA();
 				break;
            default:
 				fprintf(stderr, "Error\n");
