@@ -8,6 +8,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <stdint.h>
+#include <dirent.h>
+
+int remove(const char * pathname);
 
 
 void afficherAide()
@@ -34,6 +37,7 @@ int detailA(void)
     struct dirent *ep;
     char* tar = NULL;
     dp = opendir("./" );
+       
     if (dp != NULL)
     {
         const char* str = NULL;
@@ -41,10 +45,11 @@ int detailA(void)
             if ((str = strstr(ep->d_name, ".tar" )) && strlen(str) == strlen(".tar" )) {
                 tar = ep->d_name;
             }
+          
         closedir(dp);
     }
     else {
-        perror("Impossible d'ouvrir lefichier\n" );
+        perror("Impossible d'ouvrir le fichier\n" );
         return 1;
     }
    
@@ -64,15 +69,36 @@ int detailA(void)
     return 0;
 }
 
+ 
+int lister(void)
+{
+    DIR * rep = opendir(".");
+ 
+    if (rep != NULL)
+    {
+        struct dirent * ent;
+ 
+        while ((ent = readdir(rep)) != NULL)
+        {
+            printf("%s\n", ent->d_name);
+        }
+ 
+        closedir(rep);
+    }
+ 
+    return 0;
+}
+
 
 int main (int argc, char **argv)
      {
 	   int tflag = 0;
        int cflag = 0;
-       
+       int dflag = 0;
+       int remove(const char * pathname);
        int c;
      
-       if ((c = getopt (argc, argv, "hctf")) != -1)
+       if ((c = getopt (argc, argv, "hctfd")) != -1)
        {
 		   int nb=1;
          switch (c)
@@ -84,10 +110,13 @@ int main (int argc, char **argv)
 				cflag = 1;
 				break;
            case 't':
-				tflag = 1;
+				lister();
 				break;
 		   case 'f':
 				detailA();
+				break;
+		   case 'd':
+				remove(".");
 				break;
            default:
 				fprintf(stderr, "Error\n");
@@ -101,30 +130,32 @@ int main (int argc, char **argv)
 		 int nb=2;
 		 char ligne[90];
 
-		if ((fSrc = fopen(argv[argc-1],"w")) == NULL)
+		if ((fDest= fopen(argv[argc-1],"w")) == NULL)
 		{
 			fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[argc-1]);
 		}
 		while (nb<argc && argc>1)
 		{			
-			if ((fDest = fopen(argv[nb],"r")) == NULL)
+			if ((fSrc = fopen(argv[nb],"r")) == NULL)
 				fprintf(stderr, "\nErreur: Impossible de lire le fichier %s\n",argv[nb]);
 
-			fgets(ligne, 90, fDest);
+			fgets(ligne, 90, fSrc);
 
-			while (!feof(fDest))
+			while (!feof(fSrc))
 			{
-				fputs(ligne, fSrc);
-				fgets(ligne, 81, fDest);
+				fputs(ligne, fDest);
+				fgets(ligne, 81, fSrc);
+			fputs("n\n", fDest);
 			}
 
 
-			fclose(fDest);
+			fclose(fSrc);
 			nb++;
 		}
-		fclose(fSrc);
+		fclose(fDest);
 		printf("\nLa copie est terminee.\n");	
 	 }
 	 
      return 0;
 }
+
