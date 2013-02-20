@@ -89,42 +89,8 @@ int lister(void)
     return 0;
 }
 
-
-int main (int argc, char **argv)
-     {
-	   int tflag = 0;
-       int cflag = 0;
-       int dflag = 0;
-       int remove(const char * pathname);
-       int c;
-     
-       if ((c = getopt (argc, argv, "hctfd")) != -1)
-       {
-		   int nb=1;
-         switch (c)
-           {
-           case 'h':
-				afficherAide();
-				break;
-           case 'c':
-				cflag = 1;
-				break;
-           case 't':
-				lister();
-				break;
-		   case 'f':
-				detailA();
-				break;
-		   case 'd':
-				remove(".");
-				break;
-           default:
-				fprintf(stderr, "Error\n");
-           }          				        
-     }
-     
-	 if (cflag == 1)
-	 {
+void copier(int argc, char **argv)
+{
 		 FILE *fSrc;
 		 FILE *fDest;
 		 int nb=2;
@@ -154,8 +120,37 @@ int main (int argc, char **argv)
 		}
 		fclose(fDest);
 		printf("\nLa copie est terminee.\n");	
-	 }
-	 
+}
+
+
+int main (int argc, char **argv)
+     {
+	   int tflag = 0;
+       int cflag = 0;
+       int dflag = 0;
+       int remove(const char * pathname);
+       int c;
+     
+       if ((c = getopt (argc, argv, "hctfd")) != -1)
+       {
+         switch (c)
+           {
+           case 'h':
+				afficherAide();
+				break;
+           case 'c':
+				copier(argv, argc);
+				break;
+           case 't':
+				lister();
+				break;
+		   case 'f':
+				detailA();
+				break;
+           default:
+				fprintf(stderr, "Error\n");
+           }          				        
+     }
      return 0;
 }
 
