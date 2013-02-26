@@ -4,10 +4,10 @@
 
 void copier(int argc, char **argv)
 {
-		 FILE *fSrc;
-		 FILE *fDest;
-		 int nb=2;
-		 char ligne[90];
+		FILE *fSrc;
+		FILE *fDest;
+		int nb=2;
+		char ligne[90];
 
 		if ((fDest= fopen(argv[argc-1],"w")) == NULL)
 		{
