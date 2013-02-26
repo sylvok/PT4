@@ -1,14 +1,13 @@
-CC=gcc -Wall
+CC=gcc
 
-OBJECTS= a.out
+a.out: aide.o main.o
+	$(CC) -o a.out aide.o main.o 
 
-essai : $(OBJECTS)
-	$(CC) $(OBJECTS) -o essai
+aide.o: aide.c aide.h
+	$(CC) -o aide.o -c aide.c 
+	
+main.o: main.c aide.h
+	$(CC) -o main.o -c main.c 
 
-
-a.out : copie2.c copie2.h 
-	$(CC) -c copie2.c
-
-
-clean :
-	rm -f *~ *.o essai
+clean:
+	rm -rf *.o
