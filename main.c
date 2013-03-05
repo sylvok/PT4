@@ -9,12 +9,12 @@
 #include <stdint.h>
 #include <dirent.h>
 #include "aide.h"
-#include "detailA.h"
-#include "lister.h"
 #include "header.h"
 #include "supp.h"
+#include "global.h"
 
 int remove(const char * pathname);
+
 
 int main (int argc, char **argv)
      {
@@ -43,6 +43,9 @@ int main (int argc, char **argv)
             case 'd':
                 supp(argc, argv);
                 break;
+            case 'v' : 
+				debug = true;
+				break;
            default:
 				fprintf(stderr, "Error\n");
            }          				        

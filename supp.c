@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "global.h"
 
 void supp(int argc, char **argv)
 {
@@ -30,5 +31,7 @@ void supp(int argc, char **argv)
     fclose(fDest);
  
     rename("arrivee.tmp", "arrivee.txt");
-    printf("\nLa suppression est terminee.\n");
+    
+    if ( debug = true ) 
+			printf ( "\nLa suppression est terminee.\n" );
 }

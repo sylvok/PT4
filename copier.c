@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "global.h"
 
 void copier(int argc, char **argv)
 {
@@ -37,6 +38,7 @@ void copier(int argc, char **argv)
 			fclose(fSrc);
 			nb++;
 		}
-		fclose(fDest);
-		printf("\nLa copie est terminee.\n");	
+		fclose(fDest);	
+		if ( debug = true ) 
+			printf ("\nLa copie est terminee.\n");
 }
